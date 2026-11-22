@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiantian Meng · Portfolio</title>
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;color:#181818;background:#fff}
+*{box-sizing:border-box}
+body{margin:0}
+body:has(dialog[open]){overflow:hidden}
+button,a{-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible,.reader-pages:focus-visible{outline:2px solid currentColor;outline-offset:5px}
+header,main,footer{max-width:1320px;margin:auto;padding-inline:clamp(20px,6vw,92px)}
+header{display:flex;justify-content:space-between;align-items:center;min-height:76px;font-size:.9rem}
+.hero{display:grid;grid-template-columns:1.25fr 1fr;align-items:end;gap:32px;padding-block:clamp(68px,12vw,154px) clamp(65px,9vw,110px)}
+h1,h2,h3,p,dl,dd{margin:0}
+h1{font-size:clamp(48px,10vw,132px);font-weight:620;line-height:1.05;letter-spacing:.015em}
+.intro{display:grid;gap:10px;max-width:40ch;font-size:1rem;line-height:1.55}
+.intro>div{display:grid;grid-template-columns:5.4rem 1fr;gap:12px}
+.intro dt{color:#606060;font-size:.875rem;padding-top:.16em}
+.intro ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.intro li span{display:block;color:#606060;font-size:.875rem}
+#work{border-top:1px solid #bcbcbc;padding-top:26px;scroll-margin-top:22px}
+h2{font-size:clamp(27px,4vw,44px);letter-spacing:-.045em}
+.orbit{
+  --card-width:clamp(260px,28vw,340px);
+  --step:clamp(218px,26vw,310px);
+  --drop:39px;
+  position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;
+  margin-top:24px;
+}
+.orbit[data-ready]{display:block;height:clamp(355px,39vw,460px);overflow:hidden;isolation:isolate}
+.project{
+  --accent:#638777;--paper:#f1f6f3;
+  display:block;width:100%;padding:6px;border:1px solid #dedede;background:#fff;
+  text-align:left;box-shadow:0 14px 30px -17px #0006;
+}
+.project[data-project="1"]{--accent:#768ab1;--paper:#f1f4fa}
+.project[data-project="2"]{--accent:#a98462;--paper:#f8f3ed}
+.project[data-project="3"]{--accent:#987c9e;--paper:#f5f0f7}
+.orbit[data-ready] .project{
+  position:absolute;top:45%;left:50%;width:var(--card-width);z-index:var(--layer);
+  opacity:var(--visibility);
+  transform:translate(-50%,-50%) translate(var(--x),var(--y)) rotate(var(--tilt)) scale(var(--size));
+  transition:transform 620ms cubic-bezier(.25,.7,.25,1),opacity 420ms ease,scale 220ms ease,box-shadow 220ms ease;
+}
+.orbit[data-ready] .project[data-edge]{pointer-events:none}
+.project:hover{text-decoration:none}
+@media(hover:hover){
+  .orbit[data-ready] .project:hover{scale:1.035;box-shadow:0 20px 34px -16px #0007}
+}
+.orbit[data-ready] .project:focus-visible{z-index:5;scale:1.035}
+.file-icon{display:block;width:18px;height:22px;margin:12px;color:var(--accent)}
+.project-cover{
+  display:block;width:100%;aspect-ratio:1.45;object-fit:cover;object-position:center 30%;
+  background:var(--paper);filter:saturate(.76);border-bottom:2px solid var(--accent)
+}
+.project h3{margin:12px 10px 0;font-size:clamp(17px,2.1vw,23px);line-height:1.13;letter-spacing:-.026em}
+.project p{margin:6px 10px 10px;color:#464646;font-size:.875rem;line-height:1.4}
+.orbit-nav{display:flex;justify-content:center;gap:12px;margin-top:8px}
+.orbit-nav[hidden]{display:none}
+.orbit-nav button,.reader-close{
+  min-height:44px;padding:8px 16px;border:1px solid #ccc;border-radius:99px;background:#fff;cursor:pointer;
+}
+.orbit-nav button:hover,.reader-close:hover{background:#ededed}
+footer{padding-block:58px 30px;font-size:.875rem;color:#555}
+.reader{
+  width:min(93vw,1000px);max-width:none;height:min(91dvh,1100px);max-height:none;
+  border:1px solid #ffffff44;border-radius:15px;padding:0;
+  background:#eee;color:#181818;box-shadow:0 24px 90px #0008;
+}
+.reader[open]{display:grid;grid-template-rows:auto minmax(0,1fr)}
+.reader::backdrop{background:rgba(24,24,27,.74);backdrop-filter:blur(4px)}
+.reader[open]::backdrop{animation:shade-in 260ms ease both}
+.reader[data-closing]::backdrop{animation:shade-out 190ms ease both}
+@keyframes shade-in{from{opacity:0}}
+@keyframes shade-out{to{opacity:0}}
+.reader-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 19px;background:#fafafa;border-bottom:1px solid #ddd}
+.reader-bar h2{font-size:clamp(16px,3vw,23px);letter-spacing:-.025em}
+.reader-actions{display:flex;align-items:center;gap:12px;flex-shrink:0;font-size:.875rem}
+.reader-actions a{text-decoration:underline;text-underline-offset:3px}
+.reader-pages{overflow:auto;overscroll-behavior:contain;padding:clamp(7px,2vw,24px);outline-offset:-4px}
+.reader-pages img{display:block;width:100%;height:auto;margin:0 auto 14px;background:#fff;box-shadow:0 1px 4px #0002}
+.reader-pages img:last-child{margin-bottom:0}
+.reader-page-error{padding:12px 16px;margin-bottom:14px;background:#fff;color:#555;font-size:.875rem}
+@media(max-width:720px){
+  .hero{grid-template-columns:1fr;gap:28px}
+  .orbit{
+    --card-width:clamp(205px,64vw,302px);--step:min(58vw,275px);--drop:30px;
+    grid-template-columns:repeat(2,minmax(0,1fr));margin-inline:-12px;
+  }
+  .orbit[data-ready]{height:370px}
+  .orbit-nav{gap:7px}
+  .orbit-nav button{padding-inline:12px}
+  .reader{width:96vw;height:92dvh}
+  .reader-bar{padding:8px 10px;gap:8px}
+  .reader-actions{gap:8px}
+  .reader-close{padding-inline:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .orbit[data-ready] .project{transition:none}
+  .reader[open]::backdrop,.reader[data-closing]::backdrop{animation:none}
+}
+</style>
+</head>
+<body>
+<header><a href="#" lang="zh-CN">孟天添</a><nav aria-label="Page"><a href="#work">Portfolio</a></nav></header>
+<main>
+<section class="hero" aria-labelledby="name">
+<h1 id="name">Tiantian<br>Meng</h1>
+<dl class="intro" aria-label="Résumé at a glance">
+<div><dt>Education</dt><dd>
+  <ul>
+    <li>Master’s in Biotechnology <span>National University of Singapore · In progress</span></li>
+    <li>Bachelor’s in Biomedical Sciences <span>Zhejiang University</span></li>
+    <li>Bachelor’s in Biomedical Sciences <span>University of Edinburgh</span></li>
+  </ul>
+</dd></div>
+</dl>
+</section>
+<section id="work" aria-labelledby="work-title">
+<h2 id="work-title">Portfolio</h2>
+<div class="orbit" aria-label="Project carousel" role="group">
+  <a class="project" href="projects/microalgae/document.pdf" data-pages="32" data-page-width="1360" data-page-height="764">
+    <svg class="file-icon" viewBox="0 0 18 22" fill="none" aria-hidden="true"><path d="M3 1h8l4 4v16H3z M11 1v5h4 M6 11h6 M6 15h6" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <h3>Microalgae Drug Delivery</h3><p>Team research on an oral delivery system for intestinal inflammation.</p>
+  </a>
+  <a class="project" href="projects/hh-screening/document.pdf" data-pages="17" data-page-width="1359" data-page-height="765">
+    <svg class="file-icon" viewBox="0 0 18 22" fill="none" aria-hidden="true"><path d="M3 1h8l4 4v16H3z M11 1v5h4 M6 11h6 M6 15h6" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <h3>HH Screening</h3><p>A team proposal for hereditary haemochromatosis screening in Ireland.</p>
+  </a>
+  <a class="project" href="projects/bufalin/document.pdf" data-pages="14" data-page-width="1359" data-page-height="1813">
+    <svg class="file-icon" viewBox="0 0 18 22" fill="none" aria-hidden="true"><path d="M3 1h8l4 4v16H3z M11 1v5h4 M6 11h6 M6 15h6" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <h3>Bufalin &amp; NSCLC</h3><p>Co-authored study on metabolic reprogramming in lung cancer cells.</p>
+  </a>
+  <a class="project" href="projects/riptacs/document.pdf" data-pages="4" data-page-width="1360" data-page-height="765">
+    <svg class="file-icon" viewBox="0 0 18 22" fill="none" aria-hidden="true"><path d="M3 1h8l4 4v16H3z M11 1v5h4 M6 11h6 M6 15h6" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <h3>RIPTACs</h3><p>A research brief comparing two programs in prostate and breast cancer.</p>
+  </a>
+</div>
+<nav class="orbit-nav" aria-label="Rotate projects" hidden>
+  <button type="button" id="previous">Previous</button>
+  <button type="button" id="autoplay">Pause</button>
+  <button type="button" id="next">Next</button>
+</nav>
+</section>
+</main>
+<footer><span lang="zh-CN">孟天添</span> · Tiantian Meng</footer>
+<dialog class="reader" aria-labelledby="reader-title">
+  <div class="reader-bar">
+    <h2 id="reader-title"></h2>
+    <div class="reader-actions">
+      <a id="open-pdf" target="_blank" rel="noopener">Open PDF</a>
+      <button type="button" class="reader-close" autofocus>Close</button>
+    </div>
+  </div>
+  <div class="reader-pages" tabindex="0" role="region" aria-label="Document pages"></div>
+</dialog>
+<script src="portfolio.js"></script>
+</body>
+</html>
